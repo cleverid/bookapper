@@ -1,4 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
 ### Yii template
 assets/*
 !assets/.gitignore
@@ -6,4 +5,11 @@ protected/runtime/*
 !protected/runtime/.gitignore
 protected/data/*.db
 
-.idea
+### Vagrant template
+.vagrant/
+
+### JetBrains template
+*.iml
+## Directory-based project format:
+.idea/
+vendor/

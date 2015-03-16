@@ -7,8 +7,7 @@ Yii::setPathOfAlias('editable', dirname(__FILE__) . '/../extensions/x-editable')
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
-$dataPath = '/home/eugen/data/';
-$dataPath = '/Users/eugen/XCode/PocketDoctor/';
+$dataPath = '/var/www/bookcreator/protected/data/';
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'BookCreater',
