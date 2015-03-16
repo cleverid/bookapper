@@ -1,0 +1,34 @@
+.html .body { height: 100%; width: 100%; padding: 0; margin: 0; }
+
+.lang-selector {}
+.lang-selector form { display: inline-block; margin: 0; padding: 0; }
+.lang-selector .mlabel { vertical-align: top; line-height: 40px; }
+.lang-selector .dropdown { vertical-align: top; margin: 5px 0 0 0; width: 150px; }
+
+/*content*/
+.article-list {}
+.article-list a { text-decoration: none; color: black; }
+	.article-list .title {}
+	.article-list .content { border: 1px solid black; display: inline-block; min-width:400px; min-height: 50px; }
+	.article-list .content :first-child { border: none; }
+			.article-list .article { display: block; border-top: 1px dotted black; max-height: 36px; padding: 2px 2px;}
+			.article-list .article.selected { background: rgb(226, 245, 252); }
+			.article-list .article:hover { background: rgb(171, 232, 255); }
+				.article-list .position { display: inline-block; text-align: center; vertical-align: middle; width: 15px; }
+				.article-list .image-place { display: inline-block; text-align: center; vertical-align: middle; height: 32px; width: 32px; }
+				.article-list .name { display: inline-block; vertical-align: middle; }
+.vars .title {}
+.vars .var-input {width: 600px; min-height: 120px; text-align: left; }
+
+/*gallery*/
+.gallery .image-name { min-width: 130px; display: inline-block; }
+.gallery .form-title { width: 45px; display: inline-block; }
+.gallery .list-images { width: 780px; min-height: 200px; border: 1px solid grey; }
+.gallery .image-block { display: inline-block; min-height: 130px; width: 100px; text-align: center; vertical-align: top; padding: 4px; }
+.gallery .image-block .image-container { width: 100px; height: 100px; }
+.gallery .image-block.selected { background: rgb(226, 245, 252); }
+.gallery .image-block.nonimage { border: 1px dotted red; }
+.gallery .image-block:hover { background: rgb(171, 232, 255); }
+.gallery-preview {max-width: 300px;}
+
+xmp { margin-top: 0; }
