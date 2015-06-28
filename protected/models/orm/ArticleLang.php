@@ -8,6 +8,11 @@
  * @property integer $article_id
  * @property integer $lang_id
  * @property string $title
+ * @property string $necessary
+ * @property string $possible
+ * @property string $must_not
+ * @property string $important
+ * @property string $text
  */
 class ArticleLang extends CActiveRecord
 {
@@ -69,7 +74,7 @@ class ArticleLang extends CActiveRecord
 			'title' => Yii::t("main", 'Title'),
 			'text' => Yii::t("main", 'Text'),
 			'necessary' => Yii::t("main", 'Necessary'),
-			'possible' => Yii::t("main", 'One can'),
+			'possible' => Yii::t("main", 'Possible'),
 			'must_not' => Yii::t("main", 'Must not'),
 			'important' => Yii::t("main", "it's important"),
 			'active' => Yii::t("main", "Active"),
