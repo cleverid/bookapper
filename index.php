@@ -1,7 +1,11 @@
 <?php
 
+require_once 'vendor/phpoffice/phpword/src/PhpWord/Autoloader.php';
+\PhpOffice\PhpWord\Autoloader::register();
+
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/vendor/yiisoft/yii/framework/yii.php';
+//$phpword = dirname(__FILE__)."/vendor/phpoffice/phpword/src/PhpWord/";
 $config=dirname(__FILE__).'/protected/config/main.php';
 
 // remove the following lines when in production mode
