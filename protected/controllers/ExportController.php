@@ -1,6 +1,7 @@
 <?php
 
 use PhpOffice\PhpWord\PhpWord;
+require(Yii::getPathOfAlias('phpquery').'/phpQuery/phpQuery.php');
 
 class ExportController extends Controller {
 
@@ -52,13 +53,13 @@ class ExportController extends Controller {
             );
 
             foreach($vars as $var => $name) {
-                $text = strip_tags($article->getLangPart()->$var);
+                $text = $this->prepareLinks($article->getLangPart()->$var);
+                $text = strip_tags($text);
                 if( !empty($text) ) {
                     $section->addText($name, self::STYLE_POSITION, self::PARAGRAF_POSITION);
                     $section->addText($text);
                     $section->addTextBreak(1);
                 }
-
             }
 
         }
@@ -66,5 +67,28 @@ class ExportController extends Controller {
         // Save File
         $this->phpword->save('export_files/pocket_doctor.docx');
 	}
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    private function prepareLinks($text) {
+        $doc = phpQuery::newDocument($text);
+
+        $links = $doc->find('[data-link-id]');
+        foreach ($links as $el) {
+
+            $pq = pq($el); // Это аналог $ в jQuery
+            $idArticle = (int)$pq->attr('data-link-id');
+            /** @var Article $article */
+            $article = Article::model()->findByPk($idArticle);
+            if($article) {
+                $pq->find('[data-link-name]')->text($article->getLangPart()->title);
+                $pq->find('[data-link-position]')->text($article->position);
+            }
+        }
+
+        return $doc;
+    }
 
 }
