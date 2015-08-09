@@ -4,8 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bf0d79f04bd74139401586051dc73f8e",
+    "hash": "d9a8018a7611eeab963bdc205aad1810",
     "packages": [
+        {
+            "name": "libraries/phpquery",
+            "version": "0.9.5",
+            "dist": {
+                "type": "zip",
+                "url": "http://phpquery.googlecode.com/files/phpQuery-0.9.5.386.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "phpQuery/phpQuery.php"
+                ]
+            }
+        },
         {
             "name": "phpoffice/phpword",
             "version": "0.12.0",

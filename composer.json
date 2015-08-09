@@ -1,6 +1,25 @@
 {
   "require": {
     "yiisoft/yii": "1.1.16",
-    "phpoffice/phpword": "0.12.0"
-  }
+    "phpoffice/phpword": "0.12.0",
+    "libraries/phpquery": "0.9.5"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "libraries/phpquery",
+        "version": "0.9.5",
+        "dist": {
+          "type": "zip",
+          "url": "http://phpquery.googlecode.com/files/phpQuery-0.9.5.386.zip"
+        },
+        "autoload": {
+          "classmap": [
+            "phpQuery/phpQuery.php"
+          ]
+        }
+      }
+    }
+  ]
 }

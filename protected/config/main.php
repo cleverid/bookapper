@@ -4,8 +4,9 @@
 // Yii::setPathOfAlias('local','path/to/local-folder');
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
 Yii::setPathOfAlias('editable', dirname(__FILE__) . '/../extensions/x-editable');
-Yii::setPathOfAlias('vendor', dirname(__FILE__) . '/../../vendor');
+Yii::setPathOfAlias('vendor', realpath(dirname(__FILE__) . '/../../vendor'));
 Yii::setPathOfAlias('phpword', Yii::getPathOfAlias('vendor.phpoffice.phpword'));
+Yii::setPathOfAlias('phpquery', Yii::getPathOfAlias('vendor.libraries.phpquery'));
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
