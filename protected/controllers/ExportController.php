@@ -33,6 +33,21 @@ class ExportController extends Controller {
      * @throws Exception
      */
     public function actionIndex() {
+        $activeLang = Lang::getActive();
+
+        foreach(Lang::getAll() as $lang) {
+            $this->phpword = new PhpWord();
+            Lang::setActive($lang->code);
+            $this->export('pocket_doctor_'.$lang->code.'.docx');
+        }
+
+        Lang::setActive($activeLang->code);
+	}
+
+    /**
+     * @param string $nameFile
+     */
+    private function export($nameFile) {
         $crit = new CDbCriteria;
         $crit->together = true;
         $crit->with = array('article_lang');
@@ -45,17 +60,16 @@ class ExportController extends Controller {
             $section->addText($article->getTitleWithPosition(), self::STYLE_H1, self::PARAGRAF_H1);
 
             $vars = array(
-              'necessary' => Yii::t("main", 'Necessary'),
-              'possible' => Yii::t("main", 'Possible'),
-              'must_not' => Yii::t("main", 'Must not'),
-              'important' => Yii::t("main", "it's important"),
-              'text' => Yii::t("main", "Text"),
+                'text' => Yii::t("main", "Text"),
+                'necessary' => Yii::t("main", 'Necessary'),
+                'possible' => Yii::t("main", 'Possible'),
+                'must_not' => Yii::t("main", 'Must not'),
+                'important' => Yii::t("main", "it's important"),
             );
 
             foreach($vars as $var => $name) {
-                $text = $this->prepareLinks($article->getLangPart()->$var);
-                $text = $this->prepareImages($text);
-                $text = strip_tags($text);
+                $text = $this->prepareText($article->getLangPart()->$var);
+
                 if( !empty($text) ) {
                     $section->addText($name, self::STYLE_POSITION, self::PARAGRAF_POSITION);
                     $section->addText($text);
@@ -66,25 +80,41 @@ class ExportController extends Controller {
         }
 
         // Save File
-        $this->phpword->save('export_files/pocket_doctor.docx');
-	}
+        $this->phpword->save('export_files/'.$nameFile);
+    }
+
+    /**
+     * @param $text
+     * @return string
+     */
+    private function prepareText($text) {
+        $text = $this->prepareLinks($text);
+        $text = $this->prepareImages($text);
+        $text = strip_tags($text);
+
+        return $text;
+    }
 
     /**
      * @param string $text
      * @return string
      */
     private function prepareLinks($text) {
+        $selectorLink = 'data-link-id';
+        $selectorLinkPosition = 'data-link-position';
+        $selectorLinkName = 'data-link-name';
+
         $doc = phpQuery::newDocument($text);
 
-        $links = $doc->find('[data-link-id]');
+        $links = $doc->find("[$selectorLink]");
         foreach ($links as $el) {
             $pq = pq($el); // Это аналог $ в jQuery
-            $idArticle = $pq->attr('data-link-id');
+            $idArticle = $pq->attr($selectorLink);
             /** @var Article $article */
             $article = Article::model()->findByPk($idArticle);
             if($article) {
-                $pq->find('[data-link-name]')->text($article->getLangPart()->title);
-                $pq->find('[data-link-position]')->text($article->position);
+                $pq->find("[$selectorLinkName]")->text($article->getLangPart()->title);
+                $pq->find("[$selectorLinkPosition]")->text($article->position);
             }
         }
 

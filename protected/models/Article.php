@@ -30,7 +30,13 @@ class Article extends CModelBase
      * @return ArticleLang
      */
     public function getLangPart(){
-        return $this->article_lang[1];
+        foreach($this->article_lang as $lang) {
+            if($lang->lang_id == Lang::getActive()->id) {
+                return $lang;
+            }
+        }
+
+        return new ArticleLang();
     }
 
 

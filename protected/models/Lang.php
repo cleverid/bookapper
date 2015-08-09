@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'lang':
  * @property integer $id
  * @property string $lang_type
+ * @property string code
  */
 class Lang extends LangORM
 {
@@ -21,7 +22,10 @@ class Lang extends LangORM
 	{
 		return parent::model($className);
 	}
-	
+
+	/**
+	 * @return Lang[]
+	 */
 	public static function getAll(){
 		if(!empty(self::$_cAllLang))
 			return self::$_cAllLang;
