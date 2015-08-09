@@ -27,6 +27,7 @@
 				'items'=>array(
 					array('label'=>Yii::t('main', 'Content'), 'url'=>'/content', 'active' => Yii::app()->controller->id == 'content'),
 					array('label'=>Yii::t('main', 'Gallery'), 'url'=>'/gallery', 'active' => Yii::app()->controller->id == 'gallery'),
+					array('label'=>Yii::t('main', 'Export'), 'url'=>'/export', 'active' => Yii::app()->controller->id == 'export'),
 				),
 			),
 			$this->renderPartial('//layouts/lang_dropdown', array(

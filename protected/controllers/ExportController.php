@@ -38,10 +38,19 @@ class ExportController extends Controller {
         foreach(Lang::getAll() as $lang) {
             $this->phpword = new PhpWord();
             Lang::setActive($lang->code);
-            $this->export('pocket_doctor_'.$lang->code.'.docx');
+            $name = 'pocket_doctor_'.$lang->code.'.docx';
+            $this->export($name);
+            $files[] = array(
+                'name' => $name,
+                'url' => '/export_files/'.$name,
+            );
         }
 
         Lang::setActive($activeLang->code);
+
+        $this->render('view', array(
+            'files' => $files
+        ));
 	}
 
     /**

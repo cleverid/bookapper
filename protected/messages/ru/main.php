@@ -1,6 +1,7 @@
 <?php
 return array(
     'Position' => 'Позиция',
+    'Export' => 'Экспорт',
     'Code' => 'Код',
     'Title' => 'Заголовок',
     'Article' => 'Статья',
@@ -12,7 +13,6 @@ return array(
     'Must not' => 'Нельзя',
     "it's important" => 'Важно',
     "Active" => 'Активный',
-	
     "Content" => 'Контент',
     "Gallery" => 'Галерея',
     "Image #{id}" => 'Рис. №{id}',
