@@ -54,6 +54,7 @@ class ExportController extends Controller {
 
             foreach($vars as $var => $name) {
                 $text = $this->prepareLinks($article->getLangPart()->$var);
+                $text = $this->prepareImages($text);
                 $text = strip_tags($text);
                 if( !empty($text) ) {
                     $section->addText($name, self::STYLE_POSITION, self::PARAGRAF_POSITION);
@@ -77,15 +78,53 @@ class ExportController extends Controller {
 
         $links = $doc->find('[data-link-id]');
         foreach ($links as $el) {
-
             $pq = pq($el); // Это аналог $ в jQuery
-            $idArticle = (int)$pq->attr('data-link-id');
+            $idArticle = $pq->attr('data-link-id');
             /** @var Article $article */
             $article = Article::model()->findByPk($idArticle);
             if($article) {
                 $pq->find('[data-link-name]')->text($article->getLangPart()->title);
                 $pq->find('[data-link-position]')->text($article->position);
             }
+        }
+
+        return $doc;
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    private function prepareImages($text) {
+        $selectorGallery = 'gallery-items';
+        $selectorImage = 'data-image-id';
+
+        $doc = phpQuery::newDocument($text);
+
+        $galeries = $doc->find(".$selectorGallery");
+        $textGallery = '';
+        foreach ($galeries as $gallery) {
+            $pqGallery = pq($gallery);
+
+            $images = $pqGallery->find("[$selectorImage]");
+            foreach ($images as $key => $img) {
+                $pqImg = pq($img);
+                $idImage = $pqImg->attr($selectorImage);
+                /** @var Image $image */
+                $image = Image::model()->findByPk($idImage);
+                if($image) {
+                    $textImg = !$key?"":PHP_EOL;
+                    $textImg .= Yii::t('main', 'Image #{id}', array('{id}' => $image->id));
+                    if(strlen(trim($image->getName())) > 0) {
+                        $textImg .= ' - '.$image->getName();
+                    }
+
+                    $textGallery .= $textImg;
+                }
+            }
+
+            $textGallery .= PHP_EOL;
+            $pqGallery->wrap('<span></span>')->parent()->text($textGallery);
         }
 
         return $doc;

@@ -100,7 +100,7 @@ class Image extends CActiveRecord {
 	
 	/**
 	 * Возвращает имя файла
-	 * @return name
+	 * @return string
 	 */
 	public function getName() {
 		$langPart = $this->getLangPart();

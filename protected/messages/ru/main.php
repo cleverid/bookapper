@@ -8,12 +8,13 @@ return array(
     'Language' => 'Язык',
     'Text' => 'Текст',
     'Necessary' => 'Необходимо',
-    'One can' => 'Можно',
+    'Possible' => 'Можно',
     'Must not' => 'Нельзя',
     "it's important" => 'Важно',
     "Active" => 'Активный',
 	
     "Content" => 'Контент',
     "Gallery" => 'Галерея',
+    "Image #{id}" => 'Рис. №{id}',
 );
 
