@@ -7,9 +7,11 @@ class ExportController extends Controller {
 
     const STYLE_H1 = "FS_H1";
     const STYLE_POSITION = "FS_POSITION";
+    const STYLE_ARTICLE = "FS_ARTICLE";
 
     const PARAGRAF_H1 = "PS_H1";
     const PARAGRAF_POSITION = "PS_POSITION";
+    const PARAGRAF_ARTICLE = "PS_ARTICLE";
 
     /** @var PhpWord */
     public $phpword;
@@ -27,6 +29,9 @@ class ExportController extends Controller {
 
         $this->phpword->addFontStyle(self::STYLE_POSITION, array('bold' => true, 'size' => 14));
         $this->phpword->addParagraphStyle(self::PARAGRAF_POSITION, array('align' => 'left', 'spaceAfter' => 100));
+
+        $this->phpword->addFontStyle(self::STYLE_ARTICLE, array('size' => 12));
+        $this->phpword->addParagraphStyle(self::PARAGRAF_ARTICLE, array('align' => 'left'));
     }
 
     /**
@@ -64,6 +69,14 @@ class ExportController extends Controller {
         /** @var Article[] $articles */
         $articles = Article::model()->findAll($crit);
 
+        // Content
+        $section = $this->phpword->addSection();
+        $section->addText(Yii::t('main', 'Content_Export'), self::STYLE_POSITION, self::PARAGRAF_POSITION);
+        foreach($articles as $article) {
+            $section->addText($article->getTitleWithPosition());
+        }
+
+        // Articles
         foreach($articles as $article) {
             $section = $this->phpword->addSection();
             $section->addText($article->getTitleWithPosition(), self::STYLE_H1, self::PARAGRAF_H1);
@@ -79,9 +92,15 @@ class ExportController extends Controller {
             foreach($vars as $var => $name) {
                 $text = $this->prepareText($article->getLangPart()->$var);
 
-                if( !empty($text) ) {
+                if( !!strlen(trim(strip_tags($text))) ) {
                     $section->addText($name, self::STYLE_POSITION, self::PARAGRAF_POSITION);
-                    $section->addText($text);
+
+                    try{
+                        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $text);
+                    } catch(Exception $e) {
+                        echo $text;
+                    }
+
                     $section->addTextBreak(1);
                 }
             }
@@ -99,9 +118,44 @@ class ExportController extends Controller {
     private function prepareText($text) {
         $text = $this->prepareLinks($text);
         $text = $this->prepareImages($text);
-        $text = strip_tags($text);
 
-        return $text;
+        $text= str_replace("<b>", '[[strong]]', $text);
+        $text= str_replace("</b>", '[[/strong]]', $text);
+        $text= str_replace("<ul>", '[[ul]]', $text);
+        $text= str_replace("</ul>", '[[/ul]]', $text);
+        $text= str_replace("<li>", '[[li]]', $text);
+        $text= str_replace("</li>", '[[/li]]', $text);
+        // delete all tags
+        $text = strip_tags($text);
+        // restore allowed tags
+        $text= str_replace("[[", '<', $text);
+        $text= str_replace("]]", '>', $text);
+
+        $text = trim($text);
+
+        $lines = preg_split('/\\r\\n?|\\n/', $text);
+        $textFinal = '';
+        $lineSpace = 0;
+        foreach($lines as $line) {
+            $line = trim($line);
+
+            if(strlen(trim($line)) === 0) {
+                $lineSpace++;
+                if($lineSpace > 1) {
+                    continue;
+                }
+            } else {
+                $lineSpace = 0;
+            }
+
+            if(preg_match('/>\s*$/', $line)) {
+                $textFinal .= $line;
+            } else {
+                $textFinal .= '<p>'.$line.'</p>';
+            }
+        }
+
+        return $textFinal;
     }
 
     /**

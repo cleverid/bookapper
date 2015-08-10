@@ -14,6 +14,7 @@ return array(
     "it's important" => 'Важно',
     "Active" => 'Активный',
     "Content" => 'Контент',
+    "Content_Export" => 'Содержание',
     "Gallery" => 'Галерея',
     "Image #{id}" => 'Рис. №{id}',
 );
