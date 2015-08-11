@@ -69,8 +69,15 @@ class ExportController extends Controller {
         /** @var Article[] $articles */
         $articles = Article::model()->findAll($crit);
 
+        $sectionSettings = array(
+            'marginLeft'   => 400,
+            'marginRight'  => 400,
+            'marginTop'    => 400,
+            'marginBottom' => 400,
+        );
+
         // Content
-        $section = $this->phpword->addSection();
+        $section = $this->phpword->addSection($sectionSettings);
         $section->addText(Yii::t('main', 'Content_Export'), self::STYLE_POSITION, self::PARAGRAF_POSITION);
         foreach($articles as $article) {
             $section->addText($article->getTitleWithPosition());
@@ -78,22 +85,24 @@ class ExportController extends Controller {
 
         // Articles
         foreach($articles as $article) {
-            $section = $this->phpword->addSection();
+            $section = $this->phpword->addSection($sectionSettings);
             $section->addText($article->getTitleWithPosition(), self::STYLE_H1, self::PARAGRAF_H1);
 
             $vars = array(
-                'text' => Yii::t("main", "Text"),
+                'text' => '',
                 'necessary' => Yii::t("main", 'Necessary'),
                 'possible' => Yii::t("main", 'Possible'),
                 'must_not' => Yii::t("main", 'Must not'),
-                'important' => Yii::t("main", "it's important"),
+                'important' => Yii::t("main", "Important"),
             );
 
             foreach($vars as $var => $name) {
                 $text = $this->prepareText($article->getLangPart()->$var);
 
                 if( !!strlen(trim(strip_tags($text))) ) {
-                    $section->addText($name, self::STYLE_POSITION, self::PARAGRAF_POSITION);
+                    if(!empty($name)) {
+                        $section->addText($name, self::STYLE_POSITION, self::PARAGRAF_POSITION);
+                    }
 
                     try{
                         \PhpOffice\PhpWord\Shared\Html::addHtml($section, $text);
@@ -118,44 +127,10 @@ class ExportController extends Controller {
     private function prepareText($text) {
         $text = $this->prepareLinks($text);
         $text = $this->prepareImages($text);
+        $text = $this->prepareTags($text);
+        $text = $this->prepareParagraph($text);
 
-        $text= str_replace("<b>", '[[strong]]', $text);
-        $text= str_replace("</b>", '[[/strong]]', $text);
-        $text= str_replace("<ul>", '[[ul]]', $text);
-        $text= str_replace("</ul>", '[[/ul]]', $text);
-        $text= str_replace("<li>", '[[li]]', $text);
-        $text= str_replace("</li>", '[[/li]]', $text);
-        // delete all tags
-        $text = strip_tags($text);
-        // restore allowed tags
-        $text= str_replace("[[", '<', $text);
-        $text= str_replace("]]", '>', $text);
-
-        $text = trim($text);
-
-        $lines = preg_split('/\\r\\n?|\\n/', $text);
-        $textFinal = '';
-        $lineSpace = 0;
-        foreach($lines as $line) {
-            $line = trim($line);
-
-            if(strlen(trim($line)) === 0) {
-                $lineSpace++;
-                if($lineSpace > 1) {
-                    continue;
-                }
-            } else {
-                $lineSpace = 0;
-            }
-
-            if(preg_match('/>\s*$/', $line)) {
-                $textFinal .= $line;
-            } else {
-                $textFinal .= '<p>'.$line.'</p>';
-            }
-        }
-
-        return $textFinal;
+        return $text;
     }
 
     /**
@@ -221,6 +196,64 @@ class ExportController extends Controller {
         }
 
         return $doc;
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    private function prepareTags($text) {
+        // replace tag <b> to <strong>
+        $text = str_replace("<b>", '<strong>', $text);
+        $text = str_replace("</b>", '</strong>', $text);
+
+        $allowedTags = array('strong', 'ul', 'li');
+
+        foreach ($allowedTags as $tag) {
+            $text = preg_replace("/<($tag)(.[^<>]*)?>/", '[[$1$2]]', $text);
+            $text = str_replace("</$tag>", "[[/$tag]]", $text);
+        }
+
+        // delete all tags
+        $text = strip_tags($text);
+        // restore allowed tags
+        $text = str_replace("[[", '<', $text);
+        $text = str_replace("]]", '>', $text);
+
+        $text = trim($text);
+
+        return $text;
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    private function prepareParagraph($text) {
+        $result = '';
+
+        $lines = preg_split('/\\r\\n?|\\n/', $text);
+        $lineSpace = 0;
+        foreach ($lines as $line) {
+            $line = trim($line);
+
+            if (strlen(trim($line)) === 0) {
+                $lineSpace++;
+                if ($lineSpace > 1) {
+                    continue;
+                }
+            } else {
+                $lineSpace = 0;
+            }
+
+            if (preg_match('/>\s*$/', $line)) {
+                $result .= $line;
+            } else {
+                $result .= '<p>' . $line . '</p>';
+            }
+        }
+
+        return $result;
     }
 
 }

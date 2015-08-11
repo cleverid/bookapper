@@ -11,7 +11,7 @@ return array(
     'Necessary' => 'Необходимо',
     'Possible' => 'Можно',
     'Must not' => 'Нельзя',
-    "it's important" => 'Важно',
+    "Important" => 'Важно',
     "Active" => 'Активный',
     "Content" => 'Контент',
     "Content_Export" => 'Содержание',
