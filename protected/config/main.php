@@ -10,7 +10,7 @@ Yii::setPathOfAlias('phpquery', Yii::getPathOfAlias('vendor.libraries.phpquery')
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
-$dataPath = '/var/www/bookcreator/protected/data/';
+$dataPath = '/var/www/protected/data/';
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'BookCreater',
