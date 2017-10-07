@@ -4,23 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d9a8018a7611eeab963bdc205aad1810",
+    "content-hash": "c32299c86fcc41814bfa7b6584e3935d",
     "packages": [
         {
-            "name": "libraries/phpquery",
-            "version": "0.9.5",
+            "name": "electrolinux/phpquery",
+            "version": "0.9.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/electrolinux/phpquery.git",
+                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
+            },
             "dist": {
                 "type": "zip",
-                "url": "http://phpquery.googlecode.com/files/phpQuery-0.9.5.386.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "phpQuery/phpQuery.php"
+                    "phpQuery/"
                 ]
-            }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobiasz Cudnik",
+                    "email": "tobiasz.cudnik@gmail.com",
+                    "homepage": "https://github.com/TobiaszCudnik",
+                    "role": "Developer"
+                },
+                {
+                    "name": "didier Belot",
+                    "role": "Packager"
+                }
+            ],
+            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+            "homepage": "http://code.google.com/p/phpquery/",
+            "time": "2013-03-21T12:39:33+00:00"
         },
         {
             "name": "phpoffice/phpword",
@@ -116,7 +140,7 @@
                 "word",
                 "writer"
             ],
-            "time": "2015-01-03 09:42:48"
+            "time": "2015-01-03T09:42:48+00:00"
         },
         {
             "name": "yiisoft/yii",
@@ -206,7 +230,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-12-21 19:30:17"
+            "time": "2014-12-21T19:30:17+00:00"
         }
     ],
     "packages-dev": [],
