@@ -1,15 +1,6 @@
-### Yii template
-assets/*
-!assets/.gitignore
-protected/runtime/*
-!protected/runtime/.gitignore
-protected/data/*.db
-
-### Vagrant template
-.vagrant/
-
 ### JetBrains template
 *.iml
 ## Directory-based project format:
 .idea/
 vendor/
+images
