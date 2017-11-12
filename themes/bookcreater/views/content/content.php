@@ -49,6 +49,11 @@ $this->widget('bootstrap.widgets.TbButton', array(
 			'header'=>Yii::t('main', 'Title'),
 			'value' => '$data->article_lang[0]->title'),
         array(
+            'name'=>'t.is_free',
+            'header'=>Yii::t('main', 'IS_FREE'),
+            'value' => '$data->is_free?"Открытая":"-"',
+        ),
+        array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
             'htmlOptions'=>array('style'=>'width: 50px'),
         ),

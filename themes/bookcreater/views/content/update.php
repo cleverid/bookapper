@@ -25,6 +25,7 @@
 			<?= $form->textAreaRow($mArticleLang, 'text', array('class' => 'span12', 'rows' => 10));?>
 			<?= $form->textFieldRow($mArticle, 'code', array('class' => 'span2'));?>
 			<?= $form->checkBoxRow($mArticleLang, 'active', array());?>
+			<?= $form->checkBoxRow($mArticle, 'is_free', array());?>
 			<br />
 			<?= CHtml::submitButton('Сохранить', array('class' => 'btn btn-success')); ?> 
 		<?$this->endWidget();?>

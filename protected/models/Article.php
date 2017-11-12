@@ -95,6 +95,7 @@ class Article extends CModelBase
             'image_id' => Yii::t('main', 'Image'),
             'position' => Yii::t('main', 'Position'),
             'code' => Yii::t('main', 'Code'),
+            'is_free' => Yii::t('main', 'IS_FREE'),
         );
     }
 
