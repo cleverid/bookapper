@@ -1,18 +1,43 @@
-FROM php:5.6-apache
+FROM alpine:3.7
 
-RUN apt-get update
-RUN apt-get install -y git zlib1g-dev \
- && apt-get install -y sqlite3 libsqlite3-dev \
- && docker-php-ext-install zip \
- && docker-php-ext-install pdo pdo_mysql pdo_sqlite \
- && a2enmod rewrite \
- && curl -sS https://getcomposer.org/installer \
-   | php -- --install-dir=/usr/local/bin --filename=composer
-   
-RUN sed -i 's!/var/www/html!/var/www!g' /etc/apache2/apache2.conf \
- && sed -i 's!/var/www/html!/var/www!g'  /etc/apache2/sites-available/000-default.conf \
- && rm -R /var/www/html
-
-COPY ./protected/config/php.ini /usr/local/etc/php/php.ini
- 
 WORKDIR /var/www
+EXPOSE 80
+ENTRYPOINT [ "/run.sh" ]
+CMD ["www"]
+
+################################################################################
+
+RUN mkdir -p /var/www
+
+# Install dependencies
+RUN apk add --no-cache \
+    php7 php7-fpm php7-session php7-mbstring php7-xml php7-json php7-gd php7-curl \
+    php7-zlib php7-bz2 php7-zip \
+    php7-phar php7-openssl php7-opcache \
+    php7-pdo php7-pdo_mysql php7-pdo_sqlite sqlite sqlite-dev \
+    nginx supervisor curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+
+# composer install vendor
+#add cash to composer
+ADD composer.json /tmp/composer.json
+RUN cd /tmp && composer install
+RUN mkdir -p /var/www && cp -a /tmp/vendor /var/www
+#close cash composer
+ADD . /var/www
+
+# Copy configuration
+COPY ./docker/php/etc /etc/
+
+# Copy main script
+COPY ./docker/run.sh /run.sh
+RUN chmod u+rwx /run.sh
+
+# Copy project
+ADD . /var/www
+
+# Set permision
+RUN set -x \
+    && chown -R root:nobody /var/www \
+    && find /var/www -type d -exec chmod 750 {} \; \
+    && find /var/www -type f -exec chmod 640 {} \;

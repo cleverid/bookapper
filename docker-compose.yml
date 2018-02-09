@@ -1,6 +1,6 @@
 app:
   build: .
   ports:
-   - "127.0.0.1:10000:80"
+   - 10000:80
   volumes:
    - .:/var/www
