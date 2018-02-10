@@ -47,7 +47,7 @@ class ExportController extends Controller {
             $this->export($name);
             $files[] = array(
                 'name' => $name,
-                'url' => '/export_files/'.$name,
+                'url' => '/storage/export_files/'.$name,
             );
         }
 
@@ -117,7 +117,7 @@ class ExportController extends Controller {
         }
 
         // Save File
-        $this->phpword->save('export_files/'.$nameFile);
+        $this->phpword->save('/storage/export_files/'.$nameFile);
     }
 
     /**

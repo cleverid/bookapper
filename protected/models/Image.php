@@ -113,7 +113,7 @@ class Image extends CActiveRecord {
 	 * @return string
 	 */
 	public function getUrl() {
-		$url = '/images/'.$this->file;
+		$url = '/storage/images/'.$this->file;
 		return $url;
 	}
 	
