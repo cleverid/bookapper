@@ -6,11 +6,11 @@ Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
 Yii::setPathOfAlias('editable', dirname(__FILE__) . '/../extensions/x-editable');
 Yii::setPathOfAlias('vendor', realpath(dirname(__FILE__) . '/../../vendor'));
 Yii::setPathOfAlias('phpword', Yii::getPathOfAlias('vendor.phpoffice.phpword'));
-Yii::setPathOfAlias('phpquery', Yii::getPathOfAlias('vendor.libraries.phpquery'));
+Yii::setPathOfAlias('phpquery', Yii::getPathOfAlias('vendor.electrolinux.phpquery'));
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
-$dataPath = '/var/www/protected/data/';
+$dataPath = '/var/www/storage/';
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'BookCreater',
@@ -76,10 +76,10 @@ return array(
 		'db'=>array(
 			'connectionString' => 'sqlite:'.$dataPath.'database.db',
 		),
-		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
+//		'errorHandler'=>array(
+//			// use 'site/error' action to display errors
+//			'errorAction'=>'site/error',
+//		),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

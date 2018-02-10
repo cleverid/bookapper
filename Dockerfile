@@ -4,6 +4,7 @@ WORKDIR /var/www
 EXPOSE 80
 ENTRYPOINT [ "/run.sh" ]
 CMD ["www"]
+ENV TZ Europe/Moscow
 
 ################################################################################
 
@@ -11,11 +12,13 @@ RUN mkdir -p /var/www
 
 # Install dependencies
 RUN apk add --no-cache \
-    php7 php7-fpm php7-session php7-mbstring php7-xml php7-json php7-gd php7-curl \
-    php7-zlib php7-bz2 php7-zip \
-    php7-phar php7-openssl php7-opcache \
-    php7-pdo php7-pdo_mysql php7-pdo_sqlite sqlite sqlite-dev \
-    nginx supervisor curl
+    php5 php5-cli php5-fpm php5-json php5-gd php5-curl \
+    php5-zlib php5-bz2 php5-zip \
+    php5-phar php5-openssl \
+    php5-xml php5-dom \
+    php5-pdo php5-pdo_mysql php5-pdo_sqlite sqlite sqlite-dev \
+    nginx supervisor curl tzdata \
+    && ln -s /usr/bin/php5 /usr/bin/php
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 # composer install vendor

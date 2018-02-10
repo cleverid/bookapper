@@ -5,3 +5,4 @@
 vendor/
 images
 copy_data.sh
+supervisord.pid
