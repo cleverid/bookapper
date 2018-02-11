@@ -43,4 +43,6 @@ ADD . /var/www
 RUN set -x \
     && chown -R root:nobody /var/www \
     && find /var/www -type d -exec chmod 750 {} \; \
-    && find /var/www -type f -exec chmod 640 {} \;
+    && find /var/www -type f -exec chmod 640 {} \; \
+    && chmod 777 -R /var/www/protected/runtime \
+    && chmod 777 -R /var/www/assets
