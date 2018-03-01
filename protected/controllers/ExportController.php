@@ -117,7 +117,7 @@ class ExportController extends Controller {
         }
 
         // Save File
-        $this->phpword->save('/storage/export_files/'.$nameFile);
+        $this->phpword->save('/var/www/storage/export_files/'.$nameFile);
     }
 
     /**
