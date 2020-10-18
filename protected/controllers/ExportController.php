@@ -182,7 +182,7 @@ class ExportController extends Controller {
                 $image = Image::model()->findByPk($idImage);
                 if($image) {
                     $textImg = !$key?"":PHP_EOL;
-                    $textImg .= Yii::t('main', 'Image #{id}', array('{id}' => $image->id));
+                    $textImg .= Yii::t('main', 'Image #{id} ({file})', array('{id}' => $image->id, '{file}' => $image->file));
                     if(strlen(trim($image->getName())) > 0) {
                         $textImg .= ' - '.$image->getName();
                     }

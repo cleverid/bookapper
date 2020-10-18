@@ -16,7 +16,7 @@ return array(
     "Content" => 'Контент',
     "Content_Export" => 'Содержание',
     "Gallery" => 'Галерея',
-    "Image #{id}" => 'Рис. №{id}',
+    "Image #{id} ({file})" => 'Рис. №{id} ({file})',
     "IS_FREE" => 'Открытая',
 );
 
